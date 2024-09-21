@@ -1,0 +1,105 @@
+
+import os
+from config import apikey
+
+import openai
+from config import apikey
+client = Openai()
+openai.api_key = apikey
+
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "write a email to my boss for resignation?"
+        }
+      ]
+    }
+  ],
+  temperature=1,
+  max_tokens=256,
+  top_p=1,
+  frequency_penalty=0,
+  presence_penalty=0,
+  response_format={
+    "type": "text"
+  }
+)
+print(response)
+
+chatstr=""
+def chat(query):
+  global chatstr
+  print(chatstr)
+  openai.api_key= apikey
+  chatstr += f"akansha:{query}\n Rex:"
+  response = openai.Completion.create(
+    model="gpt-3.5-turbo",
+    # Replace with a supported model
+    prompt=chatstr,
+    temperature=0.7,
+    max_tokens=256,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0
+  )
+  say(response["choices"][0]["text"])
+  chatstr+=f"{response['choices'][0]['text']}\n"
+  return response["choices"][0]["text"]
+
+def ai(prompt):
+  openai.api_key=apikey
+  text=f"openai response for prompt:{prompt} \n*******************\n\n"
+  response = openai.Completion.create(
+    model="gpt-3.5-turbo",
+  # Replace with a supported model
+    prompt="write an email to my boss for the resignation?",
+    temperature=0.7,
+    max_tokens=256,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0
+  )
+  #todo: wrap this inside of a try catch block
+  print(response["choices"][0]["text"])
+  text+=response["choices"][0]["text"]
+  if not os.path.exists("OpenAI"):
+    os.mkdir("OpenAI")
+
+  with open(f"openai/prompt- {random.randint(1,2345645673)}","w") as f:
+    f.write(text)
+
+
+
+
+
+
+
+
+
+
+
+import os
+import Openai
+from config import apikey
+client = Openai()
+Openai.api_key=apikey
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  prompt="write an email to my boss for resignation?",
+  temperature=1,
+  max_tokens=256,
+  top_p=1,
+  frequency_penalty=0,
+  presence_penalty=0,
+  response_format={
+    "type": "text"
+  }
+)
+print(response)
+
+
